@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="entidades.js"></script>
+    <script src="logica.js"></script>
+    <link rel="stylesheet" type="text/css" href="estilos.css">
+    <title>SegundoParcialLaboIII</title>
+</head>
+
+
+<body>
+    <div class="spinner" id="spinner"></div>
+    <form id="formLista">
+        <div id="tituloFormLista">
+            <label for="campoEjemplo" id="  ">FORMULARIO LISTA</label>
+        </div>
+        <table id="tablaVehiculos">
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </form>
+    <div id="divBoton">
+        <input type="button" value="Agregar" id="btnAgregar">
+    </div>
+    </form>
+    <form action="" id="formularioAbm">
+        <label for="">Formulario Abm</label>
+        <div>
+            <label for="">Modelo</label>
+            <input type="text" id="txtModelo">
+        </div>
+        <div>
+            <label for="">Año De Fabricacion</label>
+            <input type="text" id="txtAnoFab">
+        </div>
+        <div>
+            <label for="">Velocidad Maxima</label>
+            <input type="text" id="txtVelMax">
+        </div>
+        <div>
+            <label for="" id="lblTipo">Seleccione el tipo</label>
+            <select name="" id="selectTipo">
+                <option value="aereo">Terrestre</option>
+                <option value="terrestre">Aereo</option>
+            </select>
+        </div>
+        <div id="elementosAereo">
+            <div>
+                <label for="">Altura Maxima</label>
+                <input type="text" id="txtAltMax">
+            </div>
+            <div>
+                <label for="">Automia</label>
+                <input type="text" id="txtAutonomia">
+            </div>
+        </div>
+        <div id="elementosTerrestre">
+            <label for="">Cantidad Puertas</label>
+            <input type="text" id="txtCantPue">
+            <div>
+                <label for="">Cantidad Ruedas</label>
+                <input type="text" id="txtCantRue">
+            </div>
+        </div>
+        </div>
+        <div>
+            <input type="button" value="Cancelar" id="btnCancelar">
+            <input type="button" value="Aceptar" id="btnAceptar">
+            <input type="button" value="Modificar" id="btnModificar">
+        </div>
+    </form>
+</body>
+
+</html>

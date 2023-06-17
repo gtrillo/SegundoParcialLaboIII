@@ -1,0 +1,124 @@
+body {
+  background-color: rgb(84, 58, 188);
+}
+
+#tituloFormLista{
+  text-align: center;
+}
+
+#tablaVehiculos {
+  background-color: aliceblue;
+
+  justify-content: center;
+  top: 100px; 
+  width: 80%; 
+  
+}
+
+#tablaVehiculos th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  padding: 10px;
+}
+
+
+#tablaVehiculos tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#tituloFormLista {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  color: white;
+
+}
+
+
+#divBoton {
+  position: relative;
+  text-align: center;
+  bottom: 0;
+  padding: 5px;
+}
+
+.spinner {
+  margin: 100px auto;
+  width: 10px;
+  height: 10px;
+  position: relative;
+  text-align: center;
+  animation: rotate 2s infinite linear;
+}
+
+.spinner:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid #000;
+  border-color: #000 transparent #000 transparent;
+  animation: spin 1.5s infinite ease-in-out;
+}
+
+@keyframes rotate {
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+  50% {
+      transform: rotate(180deg);
+      border-color: transparent transparent #000 transparent;
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+#formularioAbm {
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  padding: 20px;
+  width: 300px;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#formularioAbm label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#formularioAbm input[type="text"],
+#formularioAbm select {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+#elementosEmpleado,
+#elementosCliente {
+  display: none;
+}
+
+#formularioAbm .btn-container {
+  text-align: center;
+}
+
+#formularioAbm .btn-container input[type="button"] {
+  margin-right: 10px;
+}
+
