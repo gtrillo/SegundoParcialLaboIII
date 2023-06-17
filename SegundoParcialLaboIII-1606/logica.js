@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Variables
     let vehiculos = [];
     let accionBoton = 'alta';
-    let vehiculoseleccionada;
+    let vehiculoSeleccionado;
     let formularioAbm = document.getElementById("formularioAbm");
     let titulo = document.getElementById("tituloFormLista");
     let botonAgregar = document.getElementById("btnAgregar");
@@ -13,11 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
     botonAgregar.style.display = "none";
     let spinner = document.getElementById("spinner");
     spinner.style.display = "none";
-
-
-
-
-
 
     let crearListavehiculos = function () {
         let Listavehiculos = [];
@@ -176,9 +171,9 @@ document.addEventListener("DOMContentLoaded", function () {
             await darDeAltaConXHR(vehiculos);
 
         } else if (accionBoton === 'baja') {
-            console.log(vehiculoseleccionada);
-            await darDeBaja(vehiculoseleccionada);
-            formLista.style.display = "block"; 
+            console.log(vehiculoseleccionado);
+            await darDeBaja(vehiculoseleccionado);
+            formLista.style.display = "block";
         }
         //abrirFila();
     });
@@ -214,13 +209,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         formularioAbm.style.display = "none";
                         btnAgregar.style.display = "block";
 
-          
+
                         spinner.style.display = "none";
                         resolve(listaVehiculos);
                         document.getElementById("tablaVehiculos").innerHTML = crearListavehiculos(listaVehiculos);
                     } else {
                         console.log("Error en la solicitud:", xhr.status);
-                        reject("Error en la solicitud"); 
+                        reject("Error en la solicitud");
                     }
                 }
             };
@@ -229,50 +224,53 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
 
-    btnModificar.addEventListener("click", async function () {
-        Promise.all(promesas).then(() => {
-            modificarVehiculo(vehiculoModificar);
+    btnModificar.addEventListener("click",  function () {
         abrirFila();
+        if (vehiculoSeleccionado !== undefined) {
+            console.log("este es" +vehiculoSeleccionado)
+            modificarVehiculo(vehiculoSeleccionado);
+        }
+
     });
 
 
-
-    let abrirFila = function () {
-        let filas = document.querySelectorAll('tr');
-        btnModificar.style.display = 'block';
-
-        filas.forEach((fila) => {
-            const idFila = fila.getAttribute('id');
-            if (idFila) {
-                let vehiculo = obtenerInstanciaVehiculo(idFila); // Variable local para el vehículo actual
-                fila.addEventListener('click', (event) => {
-                    const clickedElement = event.target;
-                    if (
-                        clickedElement.tagName.toLowerCase() === 'input' &&
-                        clickedElement.type === 'button'
-                    ) {
-                        abrirFormularioEdicion(vehiculo);
-                        cambiarAccionBoton('baja');
-                        btnModificar.style.display = 'none';
-                        btnAceptar.style.display = 'block';
-                        document.getElementById('tablaVehiculos').innerHTML = crearTablaVehiculos(vehiculos);
-                        vehiculoSeleccionado = vehiculo;
-                    } else {
-                        console.log(`Clic en la fila ${idFila}: ${vehiculo.toString()}`);
-                        abrirFormularioEdicion(vehiculo);
-                        cambiarAccionBoton('alta');
-                        if (btnAceptar.style.display === 'block') {
-                            btnModificar.style.display = 'none';
-                        } else {
-                            btnModificar.style.display = 'block';
-                        }
-                        vehiculoSeleccionado = vehiculo; 
-                    }
-                    return;
-                });
+    let abrirFila = function() {
+      let filas = document.querySelectorAll('tr');
+      btnModificar.style.display = 'block';
+    
+      filas.forEach((fila) => {
+        const idFila = fila.getAttribute('id');
+        if (idFila) {
+          let vehiculo = obtenerInstanciaVehiculo(idFila); 
+          fila.addEventListener('click', (event) => {
+            const clickedElement = event.target;
+            if (
+              clickedElement.tagName.toLowerCase() === 'input' &&
+              clickedElement.type === 'button'
+            ) {
+              abrirFormularioEdicion(vehiculo);
+              cambiarAccionBoton('baja');
+              btnModificar.style.display = 'none';
+              btnAceptar.style.display = 'block';
+              document.getElementById('tablaVehiculos').innerHTML = crearTablaVehiculos(vehiculos);
+              vehiculoSeleccionado = vehiculo;
+            } else {
+              console.log(`Clic en la fila ${idFila}: ${vehiculo.toString()}`);
+              abrirFormularioEdicion(vehiculo);
+              cambiarAccionBoton('alta');
+              if (btnAceptar.style.display === 'block') {
+                btnModificar.style.display = 'none';
+              } else {
+                btnModificar.style.display = 'block';
+              }
+              vehiculoSeleccionado = vehiculo;
             }
-        });
+            return;
+          });
+        }
+      });
     };
+    
     abrirFila();
     function obtenerInstanciaVehiculo(numeroFila) {
         let vehiculo;
@@ -380,11 +378,9 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 
-    let modificarVehiculo = async function(vechiculoModificar) {
+    let modificarVehiculo = async function (vechiculoModificar) {
         const endPoint = "http://localhost/vehiculoAereoTerrestre.php";
       
-   
-
         const modelo = document.getElementById("txtModelo").value;
         const anoFab = document.getElementById("txtAnoFab").value;
         const velMax = document.getElementById("txtVelMax").value;
@@ -407,8 +403,6 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
           let datosActualizados = {};
       
-            
-          
           if (anoFab !== vechiculoModificar.getAnoFab()) {
             datosActualizados.anoFab = anoFab;
             vechiculoModificar.setAnoFab(datosActualizados.anoFab);
@@ -424,7 +418,7 @@ document.addEventListener("DOMContentLoaded", function () {
             vechiculoModificar.setVelMax(datosActualizados.velMax);
           }
       
-          if (vehiculo instanceof Aereo) {
+          if (vechiculoModificar instanceof Aereo) {
             if (altMax !== vechiculoModificar.getAltMax()) {
               datosActualizados.altMax = altMax;
               vechiculoModificar.setAltMax(datosActualizados.altMax);
@@ -433,7 +427,7 @@ document.addEventListener("DOMContentLoaded", function () {
               datosActualizados.autonomia = autonomia;
               vechiculoModificar.setAutonomia(datosActualizados.autonomia);
             }
-          } else if (vehiculo instanceof Terrestre) {
+          } else if (vechiculoModificar instanceof Terrestre) {
             if (cantPue !== vechiculoModificar.getCantPue()) {
               datosActualizados.cantPue = cantPue;
               vechiculoModificar.setCantPue(datosActualizados.cantPue);
@@ -443,6 +437,9 @@ document.addEventListener("DOMContentLoaded", function () {
               vechiculoModificar.setCantRue(datosActualizados.cantRue);
             }
           }
+          datosActualizados.modelo = modelo; 
+      
+          console.log(datosActualizados);
       
           const respuesta = await fetch(endPoint, {
             method: "POST",
@@ -452,12 +449,10 @@ document.addEventListener("DOMContentLoaded", function () {
             body: JSON.stringify(datosActualizados),
           });
       
-     
-      
         } catch (error) {
           console.log("Error en la solicitud:", error);
         }
-   
+      
         spinner.style.display = "none";
         formLista.style.display = "block";
         formularioAbm.style.display = "none";
@@ -465,46 +460,45 @@ document.addEventListener("DOMContentLoaded", function () {
       };
       
 
-
-      let darDeBaja = async function (vehiculo) {
+    let darDeBaja = async function (vehiculo) {
         const id = vehiculo.getId();
         const endPoint = "http://localhost/vehiculoAereoTerrestre.php";
-      
+
         try {
-          const respuesta = await fetch(endPoint, {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id }),
-          });
-      
-          if (respuesta.status === 200) {
-            console.log("Se eliminó correctamente");
-            eliminarVehiculo(vehiculo);
-            document.getElementById("tablaVehiculos").innerHTML = crearListaVehiculos(vehiculos);
-          } else {
-            console.log("Ocurrió un error al eliminar");
-          }
+            const respuesta = await fetch(endPoint, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id }),
+            });
+
+            if (respuesta.status === 200) {
+                console.log("Se eliminó correctamente");
+                eliminarVehiculo(vehiculo);
+                document.getElementById("tablaVehiculos").innerHTML = crearListaVehiculos(vehiculos);
+            } else {
+                console.log("Ocurrió un error al eliminar");
+            }
         } catch (error) {
-          console.log("Error en la solicitud:", error);
+            console.log("Error en la solicitud:", error);
         }
-      
+
         spinner.style.display = "none";
         formLista.style.display = "block";
         formularioAbm.style.display = "none";
         btnAgregar.style.display = "block";
-      };
-      
-      function eliminarVehiculo(vehiculo) {
+    };
+
+    function eliminarVehiculo(vehiculo) {
         const index = vehiculos.findIndex((v) => v.getId() === vehiculo.getId());
         if (index !== -1) {
-          vehiculos.splice(index, 1);
-          console.log("Vehículo eliminado correctamente");
+            vehiculos.splice(index, 1);
+            console.log("Vehículo eliminado correctamente");
         } else {
-          console.log("No se encontró el vehículo en la colección");
+            console.log("No se encontró el vehículo en la colección");
         }
-      }
-      
+    }
+
 
 });
